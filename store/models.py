@@ -15,9 +15,18 @@ class Product(models.Model):
     name = models.CharField(max_length=200, null=True)
     price = models.FloatField()
     digital = models.BooleanField(default=False, null=True, blank=False)
+    image = models.ImageField(null=True, blank=True)
 
     def __str__(self):
         return self.name
+
+    @property
+    def imageURL(self):
+        try:
+            url = self.image.url
+        except:
+            url = ' '
+        return url
 
 class Order(models.Model):
     Customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
@@ -27,6 +36,7 @@ class Order(models.Model):
 
     def __str__(self):
         return str(self.id)
+
 
 class OrderItem(models.Model):
 	product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
